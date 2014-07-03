@@ -19,7 +19,7 @@ class JobDescriptions:
     else:
       self.content = yaml.load(str)
 
-  def getJob(self,name):
+  def getJobDesc(self,name):
     return self.content[name]
 
 

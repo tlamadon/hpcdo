@@ -16,14 +16,21 @@ command line tool to ease the interaction with remote cluster and their schedule
 Install using pip or easy_install
 
     pip install hpcdo
-    
-    
+
 ## under the hood
 
 The library first has a description file for the jobs which allows the user to control then using names.
 The configuration file is writen in YAML and should be present in working folder. Secondly the class uses a file
 to keep information about running tasks. When a task is launched, its id is stored with the associated information.
 This allows to tail, delete or clear the task by name instead of using the job id.
+
+The library when submitting a new job does:
+
+ 1. loads the job description from the YAML file (name, log files, template file)
+ 2. apply the value from YAML to the template
+ 3. creates a temporary qsub file
+ 4. submits using qsub and capture job id
+ 5. appends the job to the job list for later use
 
 ## Notes
 

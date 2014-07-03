@@ -25,3 +25,8 @@ sc.ls(job1)
 sc.tail(job1)
 sc.kill(job1)
 sc.clean(job1)
+
+
+# checking template job
+
+jtpl = hpcdo.TemplateJob({"template":"example/cmd.tpl","name":"example"})

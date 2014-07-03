@@ -93,13 +93,14 @@ class SgeLocalScheduler:
     print "temporay qsub file:",f.name
     f.write(job.getSubFile())
     f.close()
-    cmd = subprocess.call(['qsub' , f.name],shell=True, stdout=subprocess.PIPE)
-    output = []
-    for line in cmd.stdout:
-      output.append(line)
-    # output is like our job 38517 ("mpi-timing") has been submitted
-    # extract id from output
-    job["id"] = output.split()[2]
+    cmd = subprocess.call(['qsub' , f.name])
+#    output = []
+#    for line in cmd.stdout:
+#      output.append(line)
+#    # output is like our job 38517 ("mpi-timing") has been submitted
+#    # extract id from output
+#    job["id"] = output.split()[2]
+    job["id"] = "1"
     return None
 
   def clean(self,job):

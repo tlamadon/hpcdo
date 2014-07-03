@@ -34,9 +34,9 @@ def submit(args):
   sc.submit(job)
 
   # finally et job list and append
-  jl = hpcdo.JobList()
-  jl.add(job)
-  jl.save()
+#  jl = hpcdo.JobList()
+#  jl.add(job)
+#  jl.save()
 
   print "done"
 

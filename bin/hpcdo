@@ -8,7 +8,7 @@ import json
 
 # functions
 def usage(args):
-  print "getting usage on hpc"
+  hpcdo.showUsage()
 
 def ls(args):
   jobs  = hpcdo.JobDescriptions().content.iteritems()

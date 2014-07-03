@@ -100,7 +100,7 @@ class SgeLocalScheduler:
 #    # output is like our job 38517 ("mpi-timing") has been submitted
 #    # extract id from output
 #    job["id"] = output.split()[2]
-    job["id"] = "1"
+    job.id = "1"
     return None
 
   def clean(self,job):

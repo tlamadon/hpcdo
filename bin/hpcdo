@@ -33,7 +33,7 @@ def tail(args):
   while 1:
     # get the state
     qs = sc.qstat()
-    for jb in qs.elements():
+    for jb in qs.values():
       if (jb["name"]==job.desc["name"]):
         print "state:",jb["state"]
         break

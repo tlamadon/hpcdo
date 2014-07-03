@@ -29,7 +29,7 @@ class JobList:
   content = {}
   filename = ""
 
-  def __init__(self,file="jobs.json"):
+  def __init__(self,file="~/.hpcdo.jobs.json"):
     self.filename = file
     self.reload()
 

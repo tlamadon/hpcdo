@@ -91,22 +91,15 @@ class SgeLocalScheduler:
     """
     f = tempfile.NamedTemporaryFile(mode='w+t', delete=False)
     print "temporay qsub file:",f.name
-    f.write(TEMPLATE_MPI_CMD.format(
-      cmd    = job["cmd"],
-      name   = job["name"],
-      logfile= job["log"].lower() + ".log",
-      errfile= job["log"].lower() + ".err",
-      nslots = job["nslots"]))
+    f.write(job.getSubFile())
     f.close()
     cmd = subprocess.call(['qsub' , f.name],shell=True, stdout=subprocess.PIPE)
     output = []
     for line in cmd.stdout:
       output.append(line)
-
     # output is like our job 38517 ("mpi-timing") has been submitted
-
     # extract id from output
-    job["id"] = -1
+    job["id"] = output.split()[2]
     return None
 
   def clean(self,job):

@@ -34,7 +34,7 @@ def tail(args):
     # get the state
     qs = sc.qstat()
     for jb in qs.values():
-      if (jb["name"]==job.desc["name"]):
+      if (job.desc["name"].startswith(jb["name"])):
         print "state:",jb["state"]
         break
     watcher.loop(blocking=False)

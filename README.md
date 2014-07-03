@@ -3,6 +3,8 @@ hpcdo
 
 command line tool to ease the interaction with remote cluster and their schedulers.
 
+[![Fund me](https://www.gittip.com/assets/7.0.8/logo.png)](https://www.gittip.com/tlamadon/)
+
 ## features
 
  - get a snapshot of available resources

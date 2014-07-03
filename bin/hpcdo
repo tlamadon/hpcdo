@@ -1,48 +1,41 @@
 #!/usr/bin/env python
 
-import tensorparser
+from setuptools import setup
+import hpcdo
 import argparse
 import json
+
+# functions
+def usage(args):
+  print "getting usage on hpc"
+
+def submit(args):
+  print "submitting job to the scheduler"
+
+  # get job list, for now we look in current folder
+
+  # get job description
+  jd  = JobDescriptions().reload()
+  job = jd[args.job]
+
+  print job
 
 ## Defining arguments
 parser = argparse.ArgumentParser(
   description ='Command line utility to control hpc on machine but also remotely',
   epilog      ="that's all")
 
-parser.add_argument('infile')
-parser.add_argument('-f',action='store',help='output format')
-parser.add_argument('-v',action='store_true',help='verbose output')
+#parser.add_argument('-r',action='store',help='remote server to use if not default')
+subparsers = parser.add_subparsers(help='sub-command help')
+
+parser_usage = subparsers.add_parser('use', help='list usage by all users')
+parser_usage.set_defaults(func=usage)
+
+parser_sub = subparsers.add_parser('sub', help='submit a script')
+parser_sub.add_argument('job', nargs='+', help='bar help')
+parser_sub.set_defaults(func=submit)
+
 args = parser.parse_args()
 
-# parse the json file
-# -------------------
-with open(args.infile) as data_file:
-  data = json.load(data_file)
 
-# get the format
-formats = {
-  "f90" : tensorparser.FortranFormat(),
-  "jl"  : tensorparser.JuliaFormat(),
-}
 
-# check that format is available
-if args.f not in formats.keys():
-  print "this format is not available"
-
-# process the file and write to output
-else:
-  ff = formats[args.f]
-
-  # open the file
-  file_out = open(data["module_name"] + ff.getFileExtension(), 'w')
-  file_out.write(ff.declareModuleHeader(data["module_name"],data["tensors"].keys()).encode('utf-8'))
-
-  # iterate over the tensors and save them to the file
-  for nn,tensor in data["tensors"].iteritems():
-    tp = tensorparser.TensorParser(nn,tensor["expr"],tensor["args"],tensor)
-    print "generating " + tp.name + " [ " + str(tp) + " ] "
-    file_out.write(ff.declareFunction(tp).encode('utf-8'))
-
-  # close the file
-  file_out.write(ff.declareModuleFooter(data["module_name"]).encode('utf-8'))
-  file_out.close()

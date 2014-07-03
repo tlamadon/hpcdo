@@ -30,15 +30,18 @@ def tail(args):
   # create the template -- assume job type for now
   job = hpcdo.TemplateJob(jobs.getJobDesc(args.job[0]))
   watcher = hpcdo.LogWatcher(".",[job.desc["logerr"] , job.desc["logout"]], callback , tail_lines=20)
-  while 1:
-    # get the state
-    qs = sc.qstat()
-    for jb in qs.values():
-      if (job.desc["name"].startswith(jb["name"])):
-        print "state:",jb["state"]
-        break
-    watcher.loop(blocking=False)
-    time.sleep(1.0)
+  try:
+    while 1:
+      # get the state
+      qs = sc.qstat()
+      for jb in qs.values():
+        if (job.desc["name"].startswith(jb["name"])):
+          print "state:",jb["state"]
+          break
+      watcher.loop(blocking=False)
+      time.sleep(1.0)
+  except KeyboardInterrupt:
+    print "logging interrupted by user"
 
 
 def submit(args):

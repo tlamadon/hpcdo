@@ -16,9 +16,8 @@ def ls(args):
     print " ", k , " : " , v["desc"]
 
 def qs(args):
-  jobs  = hpcdo.JobDescriptions().reload()
-  for k,v in jobs:
-    print "name:", k , " desc:" , v["desc"]
+  sc = hpcdo.SgeLocalScheduler()
+  print sc.qstat()
 
 def callback(filename, lines):
   for line in lines:
@@ -31,7 +30,7 @@ def tail(args):
   job = hpcdo.TemplateJob(jobs.getJobDesc(args.job[0]))
   watcher = hpcdo.LogWatcher(".",[job.desc["logerr"] , job.desc["logout"]], callback , tail_lines=20)
   while 1:
-    print("loop")
+    print("")
     watcher.loop(blocking=False)
     time.sleep(1.0)
 

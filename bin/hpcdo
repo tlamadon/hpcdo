@@ -21,13 +21,16 @@ def qs(args):
     print "name:", k , " desc:" , v["desc"]
 
 def submit(args):
-  print "submitting job to the scheduler" , args.job[0]
+  print "submitting job to the scheduler" , args
 
   # get job list, for now we look in current folder
   jobs  = hpcdo.JobDescriptions()
 
   # create the template -- assume job type for now
   job = hpcdo.TemplateJob(jobs.getJobDesc(args.job[0]))
+
+  if (args.n!=None):
+    job.desc["ncore"] = args.n
 
   # get the cluster control
   sc = hpcdo.SgeLocalScheduler()

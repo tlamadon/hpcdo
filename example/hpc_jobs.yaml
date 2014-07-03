@@ -1,6 +1,8 @@
 job1:
-  name: examplejob
-  n: 6
-  log: example
-  template: "cmd.tpl"
-  desc: just an example of a job
+  name:   example
+  desc:   simple parallel test
+  ncore: 5
+  logout:   example.log
+  logerr:   example.err
+  template: cmd.qsub
+  wd: /data/uctptla/git/Examples/julia/sge

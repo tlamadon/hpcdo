@@ -90,7 +90,9 @@ class SgeLocalScheduler:
     """ submits a job
     """
     f = tempfile.NamedTemporaryFile(mode='w+t', delete=False)
-    print "temporay qsub file:",f.name
+    print " ================= qsub:",f.name," ====================="
+    print job.getSubFile()
+    print " ======================================================="
     f.write(job.getSubFile())
     f.close()
     cmd = subprocess.call(['qsub' , f.name])

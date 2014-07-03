@@ -26,13 +26,20 @@ def callback(filename, lines):
 def tail(args):
   # get job list, for now we look in current folder
   jobs  = hpcdo.JobDescriptions()
+  sc = hpcdo.SgeLocalScheduler() # to get updates on status
   # create the template -- assume job type for now
   job = hpcdo.TemplateJob(jobs.getJobDesc(args.job[0]))
   watcher = hpcdo.LogWatcher(".",[job.desc["logerr"] , job.desc["logout"]], callback , tail_lines=20)
   while 1:
-    print("")
+    # get the state
+    qs = sc.qstat()
+    for jb in qs:
+      if (jb["name"]==job.desc["name"]):
+        print "state:",jb["state"]
+        break
     watcher.loop(blocking=False)
     time.sleep(1.0)
+
 
 def submit(args):
   print "submitting job to the scheduler" , args

@@ -4,7 +4,7 @@ from setuptools import setup
 import hpcdo
 import argparse
 import json
-
+import time
 
 # functions
 def usage(args):
@@ -19,6 +19,21 @@ def qs(args):
   jobs  = hpcdo.JobDescriptions().reload()
   for k,v in jobs:
     print "name:", k , " desc:" , v["desc"]
+
+def callback(filename, lines):
+  for line in lines:
+    print(line)
+
+def tail(args):
+  # get job list, for now we look in current folder
+  jobs  = hpcdo.JobDescriptions()
+  # create the template -- assume job type for now
+  job = hpcdo.TemplateJob(jobs.getJobDesc(args.job[0]))
+  watcher = hpcdo.LogWatcher(".",[job.desc["logerr"] , job.desc["logout"]], callback , tail_lines=20)
+  while 1:
+    print("loop")
+    watcher.loop(blocking=False)
+    time.sleep(1.0)
 
 def submit(args):
   print "submitting job to the scheduler" , args
@@ -37,13 +52,11 @@ def submit(args):
   sc.submit(job)
 
   # finally et job list and append
-#  jl = hpcdo.JobList()
-#  jl.add(job)
-#  jl.save()
+  #  jl = hpcdo.JobList()
+  #  jl.add(job)
+  #  jl.save()
 
   print "done"
-
-
 
 ## Defining arguments
 parser = argparse.ArgumentParser(
@@ -60,6 +73,9 @@ parser_ls = subparsers.add_parser('ls', help='list available job descriptions')
 parser_ls.set_defaults(func=ls)
 parser_qs = subparsers.add_parser('qs', help='list currently active jobs')
 parser_qs.set_defaults(func=qs)
+parser_tail = subparsers.add_parser('log', help='tail output of job')
+parser_tail.add_argument('job', nargs='+', help='name of the job')
+parser_tail.set_defaults(func=tail)
 
 parser_sub = subparsers.add_parser('sub', help='submit a job')
 parser_sub.add_argument('job', nargs='+', help='name of the job')

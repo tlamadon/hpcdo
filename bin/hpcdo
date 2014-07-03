@@ -5,20 +5,40 @@ import hpcdo
 import argparse
 import json
 
+
 # functions
 def usage(args):
   print "getting usage on hpc"
 
+def ls(args):
+  jobs  = hpcdo.JobDescriptions().content.iteritems()
+  for k,v in jobs:
+    print " ", k , " : " , v["desc"]
+
+def qs(args):
+  jobs  = hpcdo.JobDescriptions().reload()
+  for k,v in jobs:
+    print "name:", k , " desc:" , v["desc"]
+
 def submit(args):
-  print "submitting job to the scheduler"
+  print "submitting job to the scheduler" , args.job[0]
 
   # get job list, for now we look in current folder
+  jobs  = hpcdo.JobDescriptions()
 
-  # get job description
-  jd  = JobDescriptions().reload()
-  job = jd[args.job]
+  # create the template -- assume job type for now
+  job = hpcdo.TemplateJob(jobs.getJobDesc(args.job[0]))
 
-  print job
+  # get the cluster control
+  sc = hpcdo.SgeLocalScheduler()
+  sc.submit(job)
+
+  # finally et job list and append
+
+
+  print "done"
+
+
 
 ## Defining arguments
 parser = argparse.ArgumentParser(
@@ -31,11 +51,16 @@ subparsers = parser.add_subparsers(help='sub-command help')
 parser_usage = subparsers.add_parser('use', help='list usage by all users')
 parser_usage.set_defaults(func=usage)
 
+parser_ls = subparsers.add_parser('ls', help='list available job descriptions')
+parser_ls.set_defaults(func=ls)
+parser_qs = subparsers.add_parser('qs', help='list currently active jobs')
+parser_qs.set_defaults(func=qs)
+
 parser_sub = subparsers.add_parser('sub', help='submit a script')
 parser_sub.add_argument('job', nargs='+', help='bar help')
 parser_sub.set_defaults(func=submit)
 
 args = parser.parse_args()
-
+args.func(args)
 
 

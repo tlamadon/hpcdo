@@ -1,0 +1,6 @@
+job1:
+  name: examplejob
+  n: 6
+  log: example
+  template: "cmd.tpl"
+  desc: just an example of a job

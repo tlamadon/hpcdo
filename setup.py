@@ -9,4 +9,9 @@ setup(name='hpcdo',
       license='MIT',
       packages=['hpcdo'],
       scripts=['bin/hpcdo'],
+      install_requires=[
+        "jinja2",
+        "pyaml",
+        "paramiko"
+        ],
       zip_safe=False)

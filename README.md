@@ -62,7 +62,7 @@ add the path so that you can find binary automatically also in `~/.bash_profile`
 
 install a few python packages, at the command line:
 
-    easy_install --prefix=<abs_path_to_home>/usr/local multitail jinja2 pyaml json
+    easy_install --prefix=<abs_path_to_home>/usr/local multitail jinja2 pyaml
 
 get this repository and install the `hpcdo` package in develop mode, at the command line:
 

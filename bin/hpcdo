@@ -4,7 +4,7 @@ from setuptools import setup
 import hpcdo
 import argparse
 import json
-import time
+import time,sys
 
 # functions
 def usage(args):
@@ -21,7 +21,7 @@ def qs(args):
 
 def callback(filename, lines):
   for line in lines:
-    print(line)
+    sys.stdout.write(line)
 
 def tail(args):
   # get job list, for now we look in current folder

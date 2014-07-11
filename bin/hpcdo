@@ -58,7 +58,7 @@ def submit(args):
 
   # get the cluster control
   sc = hpcdo.SgeLocalScheduler()
-  if (args.c!=None):
+  if (args.clean!=None):
     print("deleting log and err files")
     sc.clean(job)
 

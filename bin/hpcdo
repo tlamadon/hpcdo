@@ -43,7 +43,6 @@ def tail(args):
   except KeyboardInterrupt:
     print "logging interrupted by user"
 
-
 def submit(args):
   print "submitting job to the scheduler" , args
 

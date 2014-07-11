@@ -58,6 +58,10 @@ def submit(args):
 
   # get the cluster control
   sc = hpcdo.SgeLocalScheduler()
+  if (args.c!=None):
+    print("deleting log and err files")
+    sc.clean(job)
+
   sc.submit(job)
 
   # finally et job list and append
@@ -89,6 +93,7 @@ parser_tail.set_defaults(func=tail)
 parser_sub = subparsers.add_parser('sub', help='submit a job')
 parser_sub.add_argument('job', nargs='+', help='name of the job')
 parser_sub.add_argument('-n' , help='overwrite the number of cores')
+parser_sub.add_argument('-c' , help='clean files before sending job')
 parser_sub.set_defaults(func=submit)
 
 args = parser.parse_args()

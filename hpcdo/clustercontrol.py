@@ -106,8 +106,8 @@ class SgeLocalScheduler:
     return None
 
   def clean(self,job):
-    subprocess.call(['rm' , job["logerr"].lower()])
-    subprocess.call(['rm' , job["logout"].lower()])
+    subprocess.call(['rm' , job.desc["logerr"].lower()])
+    subprocess.call(['rm' , job.desc["logout"].lower()])
 
 class ClusterList:
   def __init__(self):

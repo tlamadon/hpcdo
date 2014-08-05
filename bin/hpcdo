@@ -55,6 +55,9 @@ def submit(args):
   if (args.n!=None):
     job.desc["ncore"] = args.n
 
+  if (args.wt!=None):
+    job.desc["walltime"] = args.wt
+
   # get the cluster control
   sc = hpcdo.SgeLocalScheduler()
   if (args.clean!=None):
@@ -92,6 +95,7 @@ parser_tail.set_defaults(func=tail)
 parser_sub = subparsers.add_parser('sub', help='submit a job')
 parser_sub.add_argument('job', nargs='+', help='name of the job')
 parser_sub.add_argument('-n' , help='overwrite the number of cores')
+parser_sub.add_argument('-wt' , help='specify a wall time, stored in variable walltime')
 parser_sub.add_argument('--clean' ,dest='clean',action='store_true', help='clean files before sending job')
 parser_sub.set_defaults(func=submit)
 
